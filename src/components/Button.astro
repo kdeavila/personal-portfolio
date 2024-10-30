@@ -1,0 +1,17 @@
+---
+interface ButtonProps {
+    href: string;
+    title: string;
+}
+
+const { href, title } = Astro.props as ButtonProps;
+---
+
+<a
+    class="inline-flex gap-1 items-center p-2 rounded-lg border border-[#4A76B9] bg-[#3281FE] bg-opacity-30 hover:bg-opacity-40 transition-colors duration-300"
+    href={href}
+    target="_blank"
+>
+    <slot />
+    <h3 class="text-base font-bold leading-none sm:text-xl">{title}</h3>
+</a>
