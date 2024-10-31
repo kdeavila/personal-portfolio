@@ -4,8 +4,6 @@ interface Props {
 }
 
 const { title } = Astro.props;
-import Light from "@components/Light.astro";
-import LightBottom from "@components/LightBottom.astro";
 import "@fontsource/onest/400.css";
 import "@fontsource/onest/700.css";
 ---
@@ -25,21 +23,6 @@ import "@fontsource/onest/700.css";
 	</head>
 	<body class="text-[#EDF1F8]">
 		<slot />
-
-		<div class="fixed top-0 right-0 pointer-events-none -z-[5]">
-			<Light />
-		</div>
-
-		<div
-			class="hidden lg:inline-block fixed bottom-0 left-0 pointer-events-none -z-[5]"
-		>
-			<LightBottom />
-		</div>
-
-		<div
-			class="fixed inset-0 -z-10 pointer-events-none w-full min-h-dvh bg-[url(/stars-background.webp)] bg-center bg-cover bg-no-repeat"
-		>
-		</div>
 	</body>
 </html>
 

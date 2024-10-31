@@ -1,50 +1,58 @@
 ---
+// src/pages/tuPagina.astro
 import Layout from "@layouts/Layout.astro";
 import Button from "@components/Button.astro";
 import Linkedin from "@icons/Linkedin.astro";
 import Github from "@icons/Github.astro";
+import Light from "@components/Light.astro";
+import LightBottom from "@components/LightBottom.astro";
+
+const SOCIAL_MEDIA = [
+	{
+		href: "https://co.linkedin.com/in/kdeavila9",
+		title: "LinkedIn",
+		icon: "linkedin",
+	},
+	{
+		href: "https://github.com/kdeavila",
+		title: "Github",
+		icon: "github",
+	},
+];
 ---
 
 <Layout title="Portfolio personal | Keyner de Ávila">
-	<main class="flex items-center p-4 py-20 sm:pb-4">
-		<section
-			class="flex flex-col text-left mx-auto sm:text-center sm:items-center"
-		>
-			<div
-				class="size-32 border border-[#4A76B9] aspect-square overflow-hidden mb-6 sm:size-44"
-			>
-				<img
-					class="block w-full h-full pointer-events-none"
-					src="/react.webp"
-					alt="react logo"
-				/>
+	<main class="w-full min-h-dvh flex items-center px-8">
+		<section class="w-full relative flex flex-col text-left sm:text-center sm:items-center">
+			<!-- Información de perfil -->
+			<div class="size-36 border border-[#4A76B9] aspect-square overflow-hidden mb-6 xs:size-44">
+				<img class="block w-full h-full pointer-events-none" src="/react.webp" alt="react logo" />
 			</div>
 
-			<div class="mb-40">
-				<h1 class="text-4xl font-bold mb-2 sm:text-7xl">
-					Keyner de Ávila
-				</h1>
-				<p class="text-xl text-[#fff5a8] sm:text-2xl">
-					Desarrollador Frontend Jr
-				</p>
-			</div>
+			<div class="flex flex-col sm:items-center">
+				<h1 class="text-4xl font-bold mb-1 xs:text-5xl md:text-6xl md:mb-2">Keyner de Ávila</h1>
+				<p class="text-xl text-[#9DE9FF] xs:text-2xl">Desarrollador Frontend Jr</p>
 
-			<div class="flex flex-col">
-				<p class="text-xl text-[#ffd6d6] mb-2">Puedes ver más aquí:</p>
-
-				<div class="flex gap-4">
-					<Button
-						href="https://co.linkedin.com/in/kdeavila9"
-						title="LinkedIn"
-					>
-						<Linkedin />
-					</Button>
-
-					<Button href="https://github.com/kdeavila" title="Github">
-						<Github />
-					</Button>
+				<div class="w-max flex gap-4 mt-4 sm:mt-8">
+					{SOCIAL_MEDIA.map((media) => (
+						<Button href={media.href} title={media.title}>
+							{media.icon === "linkedin" ? <Linkedin /> : <Github />}
+						</Button>
+					))}
 				</div>
 			</div>
 		</section>
+
+		<div class="absolute inset-0 -z-20">
+			<img class="w-full h-full object-cover" src="/stars-background.webp" />
+		</div>
 	</main>
+
+	<div class="fixed top-0 right-0 pointer-events-none -z-10">
+		<Light />
+	</div>
+
+	<div class="hidden sm:inline-block fixed bottom-0 left-0 pointer-events-none -z-10">
+		<LightBottom />
+	</div>
 </Layout>
