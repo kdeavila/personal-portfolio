@@ -1,22 +1,21 @@
 ---
-// src/pages/tuPagina.astro
 import Layout from "@layouts/Layout.astro";
 import Linkedin from "@icons/Linkedin.astro";
 import Github from "@icons/Github.astro";
 import Light from "@components/Light.astro";
 import LightBottom from "@components/LightBottom.astro";
+import StarsBackground from "@components/StarsBackground.astro";
 ---
 
 <Layout title="Portfolio personal | Keyner de Ávila">
 	<main class="flex flex-col items-center">
-		<section
-			class="w-full min-h-screen relative flex items-center bg-[url(/stars-background.webp)] bg-center bg-cover bg-no-repeat z-0"
-		>
+		<section class="w-full min-h-screen relative flex items-center z-0">
 			<div
 				class="relative w-full max-w-7xl mx-auto flex flex-col text-left py-32 px-8 z-20 sm:text-center sm:items-center"
 			>
 				<div
-					class="size-36 border border-[#4A76B9] aspect-square overflow-hidden mb-6 xs:size-44"
+					id="reactImage"
+					class="size-36 border border-[#4A76B9] aspect-square rounded-md overflow-hidden mb-6 xs:size-44"
 				>
 					<img
 						class="block w-full h-full pointer-events-none"
@@ -25,7 +24,7 @@ import LightBottom from "@components/LightBottom.astro";
 					/>
 				</div>
 
-				<div class="flex flex-col sm:items-center">
+				<div id="texts" class="flex flex-col sm:items-center">
 					<h1
 						class="text-4xl font-bold mb-1 xs:text-5xl md:text-6xl md:mb-2"
 					>
@@ -66,4 +65,25 @@ import LightBottom from "@components/LightBottom.astro";
 			</div>
 		</section>
 	</main>
+	<StarsBackground />
+
+	<script>
+		import { gsap } from "gsap";
+
+		gsap.from("#reactImage", {
+			y: 120,
+			rotation: 360,
+			scale: 1.4,
+			ease: "back.inOut",
+			duration: 3,
+		});
+
+		gsap.from("#texts", {
+			delay: 2,
+			duration: 1,
+			y: 100,
+			opacity: 0,
+			ease: "power3.out",
+		});
+	</script>
 </Layout>
