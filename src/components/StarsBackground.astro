@@ -2,7 +2,7 @@
 
 ---
 
-<div id="starry-background"></div>
+<canvas id="starry-background"></canvas>
 
 <style is:global>
     #starry-background {
@@ -12,55 +12,70 @@
         width: 100%;
         height: 100%;
         background: radial-gradient(circle, #0d192d 0%, #0d0f22 100%);
-        overflow: hidden;
         z-index: -1;
+        animation: show 4s ease;
     }
 
-    .star {
-        position: absolute;
-        border-radius: 50%;
-        background: white;
-        filter: blur(0);
-        opacity: 0;
-        animation: twinkle 4s infinite ease-in-out;
-    }
-    
-    @keyframes twinkle {
-        0%,
-        100% {
+    @keyframes show {
+        0% {
             opacity: 0;
-            filter: blur(0);
-            transform: scale(0.5);
         }
-        50% {
-            opacity: .8;
-            filter: blur(1px);
-            transform: scale(1);
+        100% {
+            opacity: 100%;
         }
     }
 </style>
 
 <script>
-    const generateStars = () => {
-        const container = document.getElementById("starry-background");
-        const starCount = 200;
+    const createStarryNight = () => {
+        const canvas = document.getElementById(
+            "starry-background",
+        ) as HTMLCanvasElement;
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const stars = [];
+        const starCount = 100;
 
         for (let i = 0; i < starCount; i++) {
-            const star = document.createElement("div");
-            star.classList.add("star");
-
-            const size = Math.random() * 3 + 1;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.left = `${Math.random() * 100}%`;
-
-            star.style.animationDelay = `${Math.random() * 4}s`;
-
-            container.appendChild(star);
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                alpha: Math.random(),
+                twinkle: Math.random() * 0.02 + 0.01,
+            });
         }
+
+        const drawStars = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const star of stars) {
+                star.alpha += star.twinkle;
+                if (star.alpha >= 1 || star.alpha <= 0) {
+                    star.twinkle *= -1;
+                }
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
+            }
+            requestAnimationFrame(drawStars);
+        };
+
+        drawStars();
     };
 
-    window.addEventListener("DOMContentLoaded", generateStars);
+    window.addEventListener("resize", () => {
+        const canvas = document.getElementById(
+            "starry-background",
+        ) as HTMLCanvasElement;
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+    });
+
+    window.addEventListener("DOMContentLoaded", createStarryNight);
 </script>
