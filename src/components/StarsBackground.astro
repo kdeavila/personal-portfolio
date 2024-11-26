@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <canvas id="starry-background"></canvas>
@@ -13,6 +12,7 @@
         height: 100%;
         background: radial-gradient(circle, #0d192d 0%, #0d0f22 100%);
         z-index: -1;
+        opacity: 0.4;
         animation: show 4s ease;
     }
 
@@ -21,29 +21,31 @@
             opacity: 0;
         }
         100% {
-            opacity: 100%;
+            opacity: 0.4;
         }
     }
 </style>
 
 <script>
     const createStarryNight = () => {
-        const canvas = document.getElementById(
-            "starry-background",
-        ) as HTMLCanvasElement;
+        const canvas = document.getElementById("starry-background") as HTMLCanvasElement;
         const ctx = canvas.getContext("2d");
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
 
         const stars = [];
         const starCount = 100;
+
+        const setCanvasSize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+
+        setCanvasSize();
 
         for (let i = 0; i < starCount; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
+                radius: Math.random() * 1 + 1,
                 alpha: Math.random(),
                 twinkle: Math.random() * 0.02 + 0.01,
             });
@@ -65,17 +67,24 @@
         };
 
         drawStars();
-    };
 
-    window.addEventListener("resize", () => {
-        const canvas = document.getElementById(
-            "starry-background",
-        ) as HTMLCanvasElement;
-        if (canvas) {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-    });
+        window.addEventListener("resize", () => {
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
+
+            setCanvasSize();
+
+            const scaleX = canvas.width / oldWidth;
+            const scaleY = canvas.height / oldHeight;
+
+            const scale = Math.min(scaleX, scaleY);
+
+            for (const star of stars) {
+                star.x *= scaleX;
+                star.y *= scaleY;
+            }
+        });
+    };
 
     window.addEventListener("DOMContentLoaded", createStarryNight);
 </script>
